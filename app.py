@@ -5,9 +5,17 @@ import json
 from authorization.auth import AuthError, requires_auth
 
 def create_app(test_config=None):
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='./build', static_url_path='/')
     setup_db(app)
     cors = CORS(app, resources={r'/api/*': {'origins': '*'}})
+
+
+    """
+    Home Route
+    """
+    @app.route('/')
+    def index():
+        return app.send_static_file('index.html')
 
     """
     Project Routes

@@ -1,0 +1,6 @@
+# Database URL
+export DATABASE_URL="{YOUR DATABASE URL}"
+
+# Auth0 project domain and API identifier
+export AUTH0_DOMAIN="{YOUR AUTH0 APPLICATION DOMAIN URL}"
+export API_AUDIENCE="{YOUR AUTH0 API INDENTIFIER}"

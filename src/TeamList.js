@@ -13,15 +13,16 @@ const TeamList = () => {
           scope: 'get:team',
         });
         console.log('TOKEN', token);
-        const response = await fetch('http://127.0.0.1:5000//team', {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': 'X-Requested-With,content-type',
-            'Access-Control-Allow-Credentials': true,
-          },
-        });
+        console.log('DATABASE_URL', process.env.REACT_APP_DATABASE_URL);
+        const response = await fetch(
+          process.env.REACT_APP_DATABASE_URL + '//team',
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         const team_data = await response.json();
         setTeamList(team_data.team);
       } catch (e) {

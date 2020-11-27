@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import TeamList from './TeamList';
+import ProjectList from './ProjectList';
 
 function App() {
   const {
@@ -27,6 +28,7 @@ function App() {
           Log out
         </button>
         <TeamList />
+        <ProjectList />
       </div>
     );
   } else {

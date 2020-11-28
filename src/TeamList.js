@@ -1,7 +1,32 @@
 import React, { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 const TeamList = (props) => {
   const [teamList, setTeamList] = useState(null);
+
+  const deleteTeamMember = async (id) => {
+    try {
+      const response = await fetch(
+        process.env.REACT_APP_DATABASE_URL + '/team/' + id,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${props.token}`,
+          },
+        }
+      );
+      const data = await response.json();
+
+      // Update team list when delete succeeds
+      if (data.success) {
+        const updatedTeam = teamList.filter((member) => member.id !== id);
+        setTeamList(updatedTeam);
+      }
+    } catch (e) {
+      console.error('oops!', e);
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -28,15 +53,32 @@ const TeamList = (props) => {
   }
 
   return (
-    <ul>
-      {teamList.map((member, index) => {
-        return (
-          <li key={index}>
-            {member.name}/{member.department}
-          </li>
-        );
-      })}
-    </ul>
+    <section className='team'>
+      <h2 className='teamHeader'>Team Members</h2>
+      <ul className='teamList'>
+        {teamList.map((member, index) => {
+          return (
+            <li className='teamMember' key={index}>
+              <div className='memberData'>
+                <span className='name'>{member.name}</span>
+                <span className='department'>{member.department}</span>
+              </div>
+              <div className='admin'>
+                <button className='edit'>
+                  <FontAwesomeIcon icon={faEdit} />
+                </button>
+                <button
+                  className='delete'
+                  onClick={(e) => deleteTeamMember(member.id, e)}
+                >
+                  <FontAwesomeIcon icon={faTrashAlt} />
+                </button>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
   );
 };
 

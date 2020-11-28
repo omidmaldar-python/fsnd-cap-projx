@@ -29,7 +29,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div>
+    <div className='dashboard'>
       <TeamList permissions={role.permissions} token={userToken} />
       <ProjectList permissions={role.permissions} token={userToken} />
     </div>

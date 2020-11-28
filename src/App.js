@@ -1,7 +1,6 @@
 import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import TeamList from './TeamList';
-import ProjectList from './ProjectList';
+import Dashboard from './Dashboard';
 
 function App() {
   const {
@@ -27,8 +26,7 @@ function App() {
         <button onClick={() => logout({ returnTo: window.location.origin })}>
           Log out
         </button>
-        <TeamList />
-        <ProjectList />
+        <Dashboard />
       </div>
     );
   } else {

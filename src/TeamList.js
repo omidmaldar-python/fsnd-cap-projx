@@ -4,6 +4,7 @@ import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 const TeamList = (props) => {
   const [teamList, setTeamList] = useState(null);
+  const [showModal, setShowModal] = useState(true);
 
   const deleteTeamMember = async (id) => {
     try {
@@ -26,6 +27,14 @@ const TeamList = (props) => {
     } catch (e) {
       console.error('oops!', e);
     }
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const openModal = () => {
+    setShowModal(true);
   };
 
   useEffect(() => {
@@ -78,6 +87,14 @@ const TeamList = (props) => {
           );
         })}
       </ul>
+      <button type='button' onClick={openModal}>
+        Add New Team Member
+      </button>
+      <div className={showModal ? 'open modal' : 'closed model'}>
+        <section className='teamModal'>
+          <button onClick={closeModal}>X</button>
+        </section>
+      </div>
     </section>
   );
 };

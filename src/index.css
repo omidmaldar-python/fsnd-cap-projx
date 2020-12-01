@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -7,16 +11,23 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-button {
+input,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+button,
+.submitButton {
   background-color: #28abb9;
   border: none;
   border-radius: 5px;
   color: white;
+  display: inline-block;
+  font-size: 16px;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
 }
 
 .dashboard {
@@ -70,23 +81,48 @@ button {
 }
 
 .modal {
+  background: rgba(0, 0, 0, 0.6);
+  height: 100%;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
 }
 
 .teamModal {
-  position: fixed;
-  background: white;
+  background: #fff;
   border-radius: 10px;
-  width: 80%;
-  height: 25%;
+  padding: 20px;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 500px;
+}
+
+.teamInput {
+  border-radius: 6px;
+  -webkit-appearance: none;
+  border: 1px rgb(139, 135, 135);
+  background: #ddd;
+  padding: 10px;
+  margin: 10px 0;
+  width: 100%;
+}
+
+.submitButton {
+  padding: 10px;
+  width: 80px;
+}
+
+.closeButton {
+  font-size: larger;
+  font-weight: bold;
+  padding: 10px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 40px;
 }
 
 .open {
@@ -97,6 +133,9 @@ button {
   display: none;
 }
 
+.warning {
+  color: #ff5483;
+}
 /* app colors 
 light-green: #a8dda8
 pale-lime: #effad3

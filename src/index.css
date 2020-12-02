@@ -136,6 +136,14 @@ button,
 .warning {
   color: #ff5483;
 }
+
+.unauthorized {
+  color: #ff5483;
+  margin: auto;
+  text-align: center;
+  width: 50%;
+}
+
 /* app colors 
 light-green: #a8dda8
 pale-lime: #effad3

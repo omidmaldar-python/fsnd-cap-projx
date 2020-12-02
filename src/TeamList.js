@@ -6,50 +6,90 @@ const TeamList = (props) => {
   const [teamList, setTeamList] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
+  const [updateUser, setUpdateUser] = useState(false);
   const [teamMember, setTeamMember] = useState({
     name: '',
     department: '',
     id: null,
   });
 
-  const addTeamMember = async (e) => {
+  const addUpdateTeamMember = async (e) => {
     e.preventDefault();
     if (!teamMember.name || !teamMember.department) {
       setShowWarning(true);
       return;
     }
-    try {
-      const response = await fetch(
-        process.env.REACT_APP_DATABASE_URL + '/team',
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${props.token}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(teamMember),
-        }
-      );
-      const data = await response.json();
+    if (teamMember.id !== null) {
+      try {
+        const response = await fetch(
+          process.env.REACT_APP_DATABASE_URL + '/team/' + teamMember.id,
+          {
+            method: 'PATCH',
+            headers: {
+              Authorization: `Bearer ${props.token}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(teamMember),
+          }
+        );
+        const data = await response.json();
 
-      // Update teamList and reset teamMember when add succeeds
-      if (data.success) {
-        teamMember.id = data.team_member.id;
-        setTeamList(teamList.concat(teamMember));
-        setTeamMember({
-          name: '',
-          department: '',
-          id: null,
-        });
-        setShowModal(false);
+        // Update teamList and reset teamMember when add succeeds
+        if (data.success) {
+          const updatedTeam = teamList.filter(
+            (member) => member.id !== teamMember.id
+          );
+          setTeamList(updatedTeam.concat(teamMember));
+          setTeamMember({
+            name: '',
+            department: '',
+            id: null,
+          });
+          setShowModal(false);
+          setShowWarning(false);
+          setUpdateUser(false);
+        }
+      } catch (e) {
+        console.error('oops!', e);
       }
-    } catch (e) {
-      console.error('oops!', e);
-    }
+    } else
+      try {
+        const response = await fetch(
+          process.env.REACT_APP_DATABASE_URL + '/team',
+          {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${props.token}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(teamMember),
+          }
+        );
+        const data = await response.json();
+
+        // Update teamList and reset teamMember when add succeeds
+        if (data.success) {
+          teamMember.id = data.team_member.id;
+          setTeamList(teamList.concat(teamMember));
+          setTeamMember({
+            name: '',
+            department: '',
+            id: null,
+          });
+          setShowModal(false);
+          setShowWarning(false);
+        }
+      } catch (e) {
+        console.error('oops!', e);
+      }
   };
   const editTeamMember = (id) => {
+    setUpdateUser(true);
+    const currentTM = teamList.filter((member) => member.id === id)[0];
+    if (currentTM) {
+      setTeamMember(currentTM);
+    }
     openModal();
-    console.log(id);
   };
 
   const deleteTeamMember = async (id) => {
@@ -77,6 +117,12 @@ const TeamList = (props) => {
 
   const closeModal = () => {
     setShowModal(false);
+    setTeamMember({
+      name: '',
+      department: '',
+      id: null,
+    });
+    setUpdateUser(false);
   };
 
   const openModal = () => {
@@ -141,8 +187,8 @@ const TeamList = (props) => {
       </button>
       <div className={showModal ? 'open modal' : 'closed model'}>
         <section className='teamModal'>
-          <h3>Add Team Member</h3>
-          <form className='teamForm' onSubmit={addTeamMember}>
+          <h3>{updateUser ? 'Update Team Member' : 'Add New Team Member'}</h3>
+          <form className='teamForm' onSubmit={addUpdateTeamMember}>
             <label htmlFor='nameInput'>Name</label>
             <input
               id='nameInput'

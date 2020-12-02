@@ -3,15 +3,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 const TeamList = (props) => {
-  const [teamList, setTeamList] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
-  const [updateUser, setUpdateUser] = useState(false);
+  const [updateTM, setupdateTM] = useState(false);
+  const [teamList, setTeamList] = useState(null);
   const [teamMember, setTeamMember] = useState({
     name: '',
     department: '',
     id: null,
   });
+
+  const canEditTM = props.permissions.includes('patch:team');
+  const canDeleteTM = props.permissions.includes('delete:team');
 
   const addUpdateTeamMember = async (e) => {
     e.preventDefault();
@@ -47,7 +50,7 @@ const TeamList = (props) => {
           });
           setShowModal(false);
           setShowWarning(false);
-          setUpdateUser(false);
+          setupdateTM(false);
         }
       } catch (e) {
         console.error('oops!', e);
@@ -84,7 +87,7 @@ const TeamList = (props) => {
       }
   };
   const editTeamMember = (id) => {
-    setUpdateUser(true);
+    setupdateTM(true);
     const currentTM = teamList.filter((member) => member.id === id)[0];
     if (currentTM) {
       setTeamMember(currentTM);
@@ -122,7 +125,7 @@ const TeamList = (props) => {
       department: '',
       id: null,
     });
-    setUpdateUser(false);
+    setupdateTM(false);
   };
 
   const openModal = () => {
@@ -166,13 +169,13 @@ const TeamList = (props) => {
               </div>
               <div className='admin'>
                 <button
-                  className='edit'
+                  className={canEditTM ? 'edit' : 'closed'}
                   onClick={(e) => editTeamMember(member.id, e)}
                 >
                   <FontAwesomeIcon icon={faEdit} />
                 </button>
                 <button
-                  className='delete'
+                  className={canDeleteTM ? 'edit' : 'closed'}
                   onClick={(e) => deleteTeamMember(member.id, e)}
                 >
                   <FontAwesomeIcon icon={faTrashAlt} />
@@ -187,7 +190,7 @@ const TeamList = (props) => {
       </button>
       <div className={showModal ? 'open modal' : 'closed model'}>
         <section className='teamModal'>
-          <h3>{updateUser ? 'Update Team Member' : 'Add New Team Member'}</h3>
+          <h3>{updateTM ? 'Update Team Member' : 'Add New Team Member'}</h3>
           <form className='teamForm' onSubmit={addUpdateTeamMember}>
             <label htmlFor='nameInput'>Name</label>
             <input

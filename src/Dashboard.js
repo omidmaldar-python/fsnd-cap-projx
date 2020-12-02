@@ -8,6 +8,7 @@ import loading from './images/blocks-loader.gif';
 
 const Dashboard = () => {
   const { getAccessTokenSilently } = useAuth0();
+  const [permissions, setPermissions] = useState(null);
   const [authorizationFail, setFail] = useState(null);
   const [userToken, setUserToken] = useState(null);
 
@@ -19,7 +20,7 @@ const Dashboard = () => {
         });
         setUserToken(token);
         const decoded = jwt_decode(token);
-        setRole(decoded);
+        setPermissions(decoded.permissions);
       } catch (e) {
         console.error('oops!', e);
         setFail(true);

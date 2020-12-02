@@ -122,7 +122,12 @@ Use the [Auth0 Python Quickstart tutorial](https://auth0.com/docs/quickstarts/) 
 
 ### Frontend
 
-TBD
+The frontend is built using [React](https://reactjs.org/). Specific packages include:
+
+- [Create React App](https://github.com/facebook/create-react-app) to bootstrap the application
+- [dotenv](https://github.com/motdotla/dotenv) to load environment variables
+- [FontAwesome](https://fontawesome.com/) for UI icons
+- [jwt-decode](https://github.com/auth0/jwt-decode) to unpack user permissions from the Auth0 tokens
 
 ### Backend
 
@@ -181,7 +186,7 @@ The backend uses:
 
 ### Run The Heroku Deployment
 
-The backend is deployed on Heroku at: [https://fsnd-projx.herokuapp.com/](https://fsnd-projx.herokuapp.com/)
+The app is deployed on Heroku at: [https://fsnd-projx.herokuapp.com/](https://fsnd-projx.herokuapp.com/)
 
 ## Endpoint Library
 

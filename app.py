@@ -238,12 +238,11 @@ def create_app(test_config=None):
 
     @app.errorhandler(404)
     def not_found(error):
-        # return jsonify({
-        #     'success': False, 
-        #     'error': 404,
-        #     'message': 'resource not found'
-        # }), 404
-        return app.send_static_file('index.html')
+        return jsonify({
+            'success': False, 
+            'error': 404,
+            'message': 'resource not found'
+        }), 404
 
     @app.errorhandler(405)
     def not_allowed (error):

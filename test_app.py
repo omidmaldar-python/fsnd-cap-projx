@@ -125,8 +125,6 @@ class AppTestCase(unittest.TestCase):
     def test_update_team_member_bad_id(self):
         """Test updating a team member with a bad id"""
         res = self.client().patch('/team/9999', json=self.updated_team_member, headers=self.administrator_headers)
-        data = json.loads(res.data)
-
         self.assertEqual(res.status_code, 404)
 
     # GET All Team Members Requests
@@ -362,7 +360,6 @@ class AppTestCase(unittest.TestCase):
     def test_get_project_bad_url(self):
         """Test getting a single project with typo in the url"""
         res = self.client().get('/projectx/51')
-        data = json.loads(res.data)
         self.assertEqual(res.status_code, 404)
 
     # DELETE Project Requests
@@ -406,7 +403,6 @@ class AppTestCase(unittest.TestCase):
         """Test 404 error"""
         res = self.client().get('/unknown')
         data = json.loads(res.data)
-
         self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
         self.assertEqual(data['error'], 404)

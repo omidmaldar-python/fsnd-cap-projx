@@ -64,13 +64,18 @@ const ProjectList = (props) => {
               <div className='projectData'>
                 <span className='name'>{project.title}</span>
                 <span className='client'>{project.client}</span>
-                <span className='lead'>LEAD: {project.project_lead}</span>
+                <span className='lead'>
+                  LEAD:{' '}
+                  {project.project_lead
+                    ? project.project_lead.name
+                    : 'Not assigned'}
+                </span>
                 <span className='projectTeamHeader'>TEAM: </span>
                 <ul className='projectTeam'>
-                  {project.team.map((name, index) => {
+                  {project.team.map((member) => {
                     return (
-                      <li key={index} className='projectMember'>
-                        {name}
+                      <li key={member.id} className='projectMember'>
+                        {member.name}
                       </li>
                     );
                   })}

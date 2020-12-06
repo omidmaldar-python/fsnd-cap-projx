@@ -46,7 +46,7 @@ class AppTestCase(unittest.TestCase):
             'title': 'Project 1',
             'client': 'Amazon',
             'project_lead': 1,
-            'team': [1]
+            'team': [2]
         }
 
         self.updated_project = {
@@ -286,8 +286,9 @@ class AppTestCase(unittest.TestCase):
 
     def test_update_project_bad_id(self):
         """Test updating a project with a bad id"""
-        res = self.client().patch('/project/9999', json=self.updated_project, headers=self.administrator_headers)
+        res = self.client().patch('/projects/9999', json=self.updated_project, headers=self.administrator_headers)
         self.assertEqual(res.status_code, 404)
+    
     # GET All Project Requests
 
     def test_admin_get_projects(self):

@@ -51,23 +51,30 @@ class Project(db.Model):
     def info(self):
         # Get name of project lead
         if self.project_lead:
-            team_lead = TeamMember.query.get(self.project_lead).name
+            team_lead = {
+                'id': self.project_lead,
+                'name': TeamMember.query.get(self.project_lead).name
+            }
         else:
-            team_lead = 'not assigned'
+            team_lead = "Not Assigned"
 
         # Get names of team members
+        team = []
         team_members = db.session.query(associations).filter(associations.c.project_id == self.id).all()
         if team_members:
-            team = [TeamMember.query.get(member.team_id).name for member in team_members]
-        else:
-            team = []
+            for member in team_members:
+                memberData = {
+                    'id': member.team_id,
+                    'name': TeamMember.query.get(member.team_id).name
+                }
+                team.append(memberData)
 
         return {
             'id': self.id,
             'title': self.title,
             'client': self.client,
             'project_lead': team_lead,
-            'team': team
+            'team': sorted(team, key=lambda k: k['name'])
         }
 
     def insert(self):

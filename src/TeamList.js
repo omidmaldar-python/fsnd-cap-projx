@@ -1,18 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 const TeamList = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
-  const [updateTM, setupdateTM] = useState(false);
-  const [teamList, setTeamList] = useState(null);
+  const [updateTM, setUpdateTM] = useState(false);
   const [teamMember, setTeamMember] = useState({
     name: '',
     department: '',
     id: null,
   });
 
+  // passed props
+  const teamList = props.teamList.sort((a, b) => (a.name > b.name ? 1 : -1));
+  const setTeamList = props.setTeamList;
+  const deleteTMUpdate = props.deleteTMUpdate;
+
+  // set permissions
+  const canAddTM = props.permissions.includes('post:team');
   const canEditTM = props.permissions.includes('patch:team');
   const canDeleteTM = props.permissions.includes('delete:team');
 
@@ -50,7 +56,7 @@ const TeamList = (props) => {
           });
           setShowModal(false);
           setShowWarning(false);
-          setupdateTM(false);
+          setUpdateTM(false);
         }
       } catch (e) {
         console.error('oops!', e);
@@ -87,7 +93,7 @@ const TeamList = (props) => {
       }
   };
   const editTeamMember = (id) => {
-    setupdateTM(true);
+    setUpdateTM(true);
     const currentTM = teamList.filter((member) => member.id === id)[0];
     if (currentTM) {
       setTeamMember(currentTM);
@@ -108,10 +114,9 @@ const TeamList = (props) => {
       );
       const data = await response.json();
 
-      // Update team list when delete succeeds
+      // Update team and project lists when delete succeeds
       if (data.success) {
-        const updatedTeam = teamList.filter((member) => member.id !== id);
-        setTeamList(updatedTeam);
+        deleteTMUpdate(id);
       }
     } catch (e) {
       console.error('oops!', e);
@@ -125,42 +130,18 @@ const TeamList = (props) => {
       department: '',
       id: null,
     });
-    setupdateTM(false);
+    setUpdateTM(false);
   };
 
   const openModal = () => {
     setShowModal(true);
   };
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await fetch(
-          process.env.REACT_APP_DATABASE_URL + '/team',
-          {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${props.token}`,
-            },
-          }
-        );
-        const team_data = await response.json();
-        setTeamList(team_data.team);
-      } catch (e) {
-        console.error('oops!', e);
-      }
-    })();
-  }, [props.token]);
-
-  if (!teamList) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <section className='team'>
       <h2 className='teamHeader'>Team Members</h2>
       <ul className='teamList'>
-        {teamList.map((member, index) => {
+        {props.teamList.map((member, index) => {
           return (
             <li className='teamMember' key={index}>
               <div className='memberData'>
@@ -185,7 +166,11 @@ const TeamList = (props) => {
           );
         })}
       </ul>
-      <button type='button' onClick={openModal}>
+      <button
+        type='button'
+        className={canAddTM ? 'add-button' : 'closed add-button'}
+        onClick={openModal}
+      >
         Add New Team Member
       </button>
       <div className={showModal ? 'open modal' : 'closed model'}>

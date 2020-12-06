@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import jwt_decode from 'jwt-decode';
 import Dashboard from './Dashboard';
-import locked from './images/locked.svg';
-import loading from './images/blocks-loader.gif';
+import Loading from './Loading';
+import Unauthorized from './Unauthorized';
 
 const Authorization = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -28,19 +28,9 @@ const Authorization = () => {
   }, [getAccessTokenSilently, userToken]);
 
   if (authorizationFail) {
-    return (
-      <div className='unauthorized'>
-        <img alt='padlock' src={locked} />
-        <h1>Unable to Authorize</h1>
-        <p>You are not allowed to access this content</p>
-      </div>
-    );
+    return <Unauthorized />;
   } else if (!permissions) {
-    return (
-      <div className='loading'>
-        <img alt='loading' src={loading} />
-      </div>
-    );
+    return <Loading />;
   }
 
   return (

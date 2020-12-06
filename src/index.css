@@ -1,3 +1,5 @@
+/* General styles */
+
 * {
   box-sizing: border-box;
 }
@@ -89,7 +91,8 @@ button,
   width: 100%;
 }
 
-.teamModal {
+.teamModal,
+.projectModal {
   background: #fff;
   border-radius: 10px;
   padding: 20px;
@@ -100,7 +103,8 @@ button,
   width: 500px;
 }
 
-.teamInput {
+.teamInput,
+.projectInput {
   border-radius: 6px;
   -webkit-appearance: none;
   border: 1px rgb(139, 135, 135);
@@ -135,6 +139,11 @@ button,
 
 .warning {
   color: #ff5483;
+}
+
+.loading {
+  margin-top: 33%;
+  text-align: center;
 }
 
 .unauthorized {

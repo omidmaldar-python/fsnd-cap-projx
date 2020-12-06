@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import Dashboard from './Dashboard';
+import Authorization from './Authorization';
+import loading from './images/blocks-loader.gif';
 
 function App() {
   const {
@@ -13,7 +14,11 @@ function App() {
   } = useAuth0();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className='loading'>
+        <img alt='loading' src={loading} />
+      </div>
+    );
   }
   if (error) {
     return <div>Oops... {error.message}</div>;
@@ -26,7 +31,7 @@ function App() {
         <button onClick={() => logout({ returnTo: window.location.origin })}>
           Log out
         </button>
-        <Dashboard />
+        <Authorization />
       </div>
     );
   } else {

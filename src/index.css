@@ -5,12 +5,12 @@
 }
 
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  color: #333;
+  font-family: 'Open Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 1.25rem;
+  margin: 0;
 }
 
 input,
@@ -26,11 +26,52 @@ button,
   border-radius: 5px;
   color: white;
   display: inline-block;
-  font-size: 16px;
+  font-size: 1.25rem;
+  font-weight: bold;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
 }
+
+/* Welcome page */
+
+.welcome {
+  display: flex;
+}
+
+.welcome-left,
+.welcome-right {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  text-align: center;
+  width: 50%;
+}
+
+.welcome-left {
+  background-color: #a8dda8;
+}
+
+.welcome-right {
+  background-color: #d6f3f6;
+}
+
+.headline {
+  color: #2d6187;
+  font-size: 3rem;
+  font-family: 'Bowlby One', cursive;
+  margin: 0;
+}
+
+.subhead {
+  color: #2d6187;
+  font-size: 1.5rem;
+  margin: 0 0 40px;
+}
+
+/* Dashboard */
 
 .dashboard {
   display: flex;
@@ -82,6 +123,8 @@ button,
   width: 40px;
 }
 
+/* Modal */
+
 .modal {
   background: rgba(0, 0, 0, 0.6);
   height: 100%;
@@ -103,6 +146,8 @@ button,
   width: 500px;
 }
 
+/* Form */
+
 .teamInput,
 .projectInput {
   border-radius: 6px;
@@ -114,14 +159,7 @@ button,
   width: 100%;
 }
 
-.submitButton {
-  padding: 10px;
-  width: 80px;
-}
-
 .closeButton {
-  font-size: larger;
-  font-weight: bold;
   padding: 10px;
   position: absolute;
   top: 10px;

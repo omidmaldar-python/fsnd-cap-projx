@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import Authorization from './Authorization';
+import Error from './Error';
 import loading from './images/blocks-loader.gif';
 import logo from './images/projx-logo.svg';
 
@@ -21,8 +22,9 @@ function App() {
       </div>
     );
   }
+
   if (error) {
-    return <div>Oops... {error.message}</div>;
+    return <Error errorMessage={error.message} />;
   }
 
   if (isAuthenticated) {

@@ -5,13 +5,13 @@ import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 const ProjectList = (props) => {
   const emptyProject = {
     client: '',
-    project_lead: 0,
+    project_lead: null,
     team: [],
     title: '',
     id: null,
     teamIDs: [],
     formattedTeam: {
-      lead: 0,
+      lead: null,
       team: [],
     },
   };
@@ -171,7 +171,7 @@ const ProjectList = (props) => {
                 <span className='client'>{project.client}</span>
                 <span className='lead'>
                   LEAD:{' '}
-                  {project.formattedTeam.lead
+                  {project.formattedTeam.lead && project.formattedTeam.lead.name
                     ? project.formattedTeam.lead.name
                     : 'Not assigned'}
                 </span>

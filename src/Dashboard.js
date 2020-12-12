@@ -55,10 +55,27 @@ const Dashboard = (props) => {
     return <Loading />;
   }
 
-  const deleteTMUpdate = async (id) => {
+  const deleteTMUpdate = (id) => {
     const updatedTeam = teamList.filter((member) => member.id !== id);
     setTeamList(updatedTeam);
-    // TODO: update projects list when team member is deleted
+    const updatedProjectList = projectList;
+    for (let i = 0; i < projectList.length; i++) {
+      const project = projectList[i];
+      if (project.project_lead === id) {
+        project.project_lead = null;
+        project.formattedTeam.lead = null;
+      }
+      const team = project.team;
+      for (let j = 0; j < team.length; j++) {
+        if (team[j] === id) {
+          team.splice(j, 1);
+          project.formattedTeam.team = project.formattedTeam.team.filter(
+            (member) => member.id !== id
+          );
+        }
+      }
+    }
+    setProjectList([...updatedProjectList]);
   };
 
   return (

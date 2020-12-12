@@ -5,8 +5,9 @@ import Loading from './Loading';
 
 const Dashboard = (props) => {
   const [teamList, setTeamList] = useState(null);
+  const [projectList, setProjectList] = useState(null);
 
-  // Load team
+  // load team
   useEffect(() => {
     (async () => {
       try {
@@ -27,7 +28,30 @@ const Dashboard = (props) => {
     })();
   }, [props.token]);
 
-  if (!teamList) {
+  // load projects
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await fetch(
+          process.env.REACT_APP_DATABASE_URL + '/projects',
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${props.token}`,
+            },
+          }
+        );
+        const project_data = await response.json();
+        console.log(props.token);
+        console.log(project_data.projects);
+        setProjectList(project_data.projects);
+      } catch (e) {
+        console.error('oops!', e);
+      }
+    })();
+  }, [props.token]);
+
+  if (!projectList || !teamList) {
     return <Loading />;
   }
 
@@ -46,7 +70,13 @@ const Dashboard = (props) => {
         setTeamList={setTeamList}
         deleteTMUpdate={deleteTMUpdate}
       />
-      <ProjectList permissions={props.permissions} token={props.token} />
+      <ProjectList
+        permissions={props.permissions}
+        token={props.token}
+        teamList={teamList}
+        projectList={projectList}
+        setProjectList={setProjectList}
+      />
     </div>
   );
 };

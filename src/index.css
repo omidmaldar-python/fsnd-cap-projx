@@ -107,8 +107,8 @@ button,
 .projectInput {
   border-radius: 6px;
   -webkit-appearance: none;
-  border: 1px rgb(139, 135, 135);
-  background: #ddd;
+  border: 2px #28abb9;
+  background: hsl(77, 80%, 90%);
   padding: 10px;
   margin: 10px 0;
   width: 100%;

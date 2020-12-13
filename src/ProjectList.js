@@ -166,39 +166,53 @@ const ProjectList = (props) => {
         {projectList.map((project) => {
           return (
             <li className='project' key={project.id}>
-              <div className='projectData'>
-                <span className='name'>{project.title}</span>
-                <span className='client'>{project.client}</span>
-                <span className='lead'>
-                  LEAD:{' '}
-                  {project.formattedTeam.lead && project.formattedTeam.lead.name
-                    ? project.formattedTeam.lead.name
-                    : 'Not assigned'}
-                </span>
-                <span className='projectTeamHeader'>TEAM: </span>
-                <ul className='projectTeam'>
-                  {project.formattedTeam.team.map((member) => {
-                    return (
-                      <li key={member.id} className='projectMember'>
-                        {member.name}
-                      </li>
-                    );
-                  })}
-                </ul>
+              <div className='projectMeta'>
+                <span className='projectTitle'>{project.title}</span>
+                <div className='admin'>
+                  <button
+                    className={canEditProject ? 'edit' : 'closed'}
+                    onClick={(e) => editProject(project.id, e)}
+                  >
+                    <FontAwesomeIcon icon={faEdit} />
+                  </button>
+                  <button
+                    className={canDeleteProject ? 'delete' : 'closed'}
+                    onClick={(e) => deleteProject(project.id, e)}
+                  >
+                    <FontAwesomeIcon icon={faTrashAlt} />
+                  </button>
+                </div>
               </div>
-              <div className='admin'>
-                <button
-                  className={canEditProject ? 'edit' : 'closed'}
-                  onClick={(e) => editProject(project.id, e)}
-                >
-                  <FontAwesomeIcon icon={faEdit} />
-                </button>
-                <button
-                  className={canDeleteProject ? 'delete' : 'closed'}
-                  onClick={(e) => deleteProject(project.id, e)}
-                >
-                  <FontAwesomeIcon icon={faTrashAlt} />
-                </button>
+              <div className='projectData'>
+                <span className='client'>
+                  <strong>CLIENT:</strong> {project.client}
+                </span>
+                <span className='lead'>
+                  <strong>LEAD:</strong>
+                  {project.formattedTeam.lead && project.formattedTeam.lead.name
+                    ? ` ${project.formattedTeam.lead.name}`
+                    : ` Not assigned`}
+                </span>
+                {project.formattedTeam.team.length === 0 ? (
+                  <span className='projectTeam'>
+                    <strong>TEAM: </strong>Not Assigned
+                  </span>
+                ) : (
+                  <div>
+                    <span className='projectTeamHeader'>
+                      <strong>TEAM: </strong>
+                    </span>
+                    <ul className='projectTeam'>
+                      {project.formattedTeam.team.map((member) => {
+                        return (
+                          <li key={member.id} className='projectMember'>
+                            {member.name}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                )}
               </div>
             </li>
           );

@@ -5,12 +5,17 @@
 }
 
 body {
-  color: #333;
+  color: #1f435e;
   font-family: 'Open Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 1.25rem;
   margin: 0;
+}
+
+h1,
+h2 {
+  font-family: 'Bowlby One', cursive;
 }
 
 input,
@@ -19,12 +24,15 @@ select {
   font-size: inherit;
 }
 
+li {
+  list-style-type: square;
+}
 button,
 .submitButton {
   background-color: #28abb9;
   border: none;
   border-radius: 5px;
-  color: white;
+  color: #d6f3f6;
   display: inline-block;
   font-size: 1.25rem;
   font-weight: bold;
@@ -61,7 +69,7 @@ button,
 .headline {
   color: #2d6187;
   font-size: 3rem;
-  font-family: 'Bowlby One', cursive;
+
   margin: 0;
 }
 
@@ -72,9 +80,12 @@ button,
 }
 
 /* Loading, unauthorized  */
+
 .loading {
   align-items: center;
+  background-color: #d6f3f6;
   display: flex;
+  flex-direction: column;
   height: 100vh;
   justify-content: center;
   text-align: center;
@@ -99,10 +110,37 @@ button,
 .errorImage {
   width: 33%;
 }
+
+/* User view */
+
+.userView {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.sidebar {
+  background-color: #2d6187;
+  color: #d6f3f6;
+  padding: 0 20px 20px;
+  width: 100%;
+}
+
+.user {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.logout {
+  max-width: 150px;
+}
+
 /* Dashboard */
 
 .dashboard {
   display: flex;
+  flex-direction: column;
   flex-wrap: nowrap;
   justify-content: space-around;
 }
@@ -110,19 +148,25 @@ button,
 .projects,
 .team {
   flex-basis: 50%;
-  padding: 0 20px;
+  padding: 0 20px 40px;
 }
+
 .projects {
-  background-color: #effad3;
+  background-color: #a8dda8;
 }
 
 .team {
   background-color: #d6f3f6;
 }
 
+.teamHeader,
+.projectHeader {
+  color: #2d6187;
+}
 .teamList,
 .projectList {
   list-style: none;
+  padding: 0 10px;
 }
 
 .teamMember,
@@ -132,16 +176,36 @@ button,
   padding: 10px 0;
 }
 
-.memberData,
-.projectData {
+.project {
+  flex-direction: column;
+}
+
+.projectMeta {
+  display: flex;
+  justify-content: space-between;
+}
+
+.memberData {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   padding: 10px 0;
 }
 
-.name {
+.projectData {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.name,
+.projectTitle {
   font-weight: bold;
+  max-width: 200px;
+}
+
+.projectTitle {
+  padding-top: 10px 0;
 }
 
 .edit,
@@ -164,7 +228,7 @@ button,
 
 .teamModal,
 .projectModal {
-  background: #fff;
+  background: #d6f3f6;
   border-radius: 10px;
   padding: 20px;
   position: fixed;
@@ -181,7 +245,6 @@ button,
   border-radius: 6px;
   -webkit-appearance: none;
   border: 2px #28abb9;
-  background: hsl(77, 80%, 90%);
   padding: 10px;
   margin: 10px 0;
   width: 100%;
@@ -205,6 +268,43 @@ button,
 
 .warning {
   color: #ff5483;
+}
+
+/* Media queries */
+
+@media screen and (min-width: 550px) {
+  .user {
+    flex-direction: row;
+  }
+
+  .teamList,
+  .projectList {
+    padding: 0 40px;
+  }
+}
+
+@media screen and (min-width: 780px) {
+  .dashboard {
+    flex-direction: row;
+  }
+}
+
+@media screen and (min-width: 1152px) {
+  .sidebar {
+    width: 25%;
+  }
+
+  .user {
+    flex-direction: column;
+  }
+
+  .userView {
+    flex-direction: row;
+  }
+
+  .dashboard {
+    width: 75%;
+  }
 }
 
 /* app colors 

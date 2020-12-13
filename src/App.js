@@ -6,19 +6,13 @@ import loading from './images/blocks-loader.gif';
 import logo from './images/projx-logo.svg';
 
 function App() {
-  const {
-    isLoading,
-    isAuthenticated,
-    error,
-    user,
-    loginWithRedirect,
-    logout,
-  } = useAuth0();
+  const { isLoading, isAuthenticated, error, loginWithRedirect } = useAuth0();
 
   if (isLoading) {
     return (
       <div className='loading'>
         <img alt='loading' src={loading} />
+        <p>Loading your ProjX</p>
       </div>
     );
   }
@@ -28,15 +22,7 @@ function App() {
   }
 
   if (isAuthenticated) {
-    return (
-      <div>
-        Hello {user.name}{' '}
-        <button onClick={() => logout({ returnTo: window.location.origin })}>
-          Log out
-        </button>
-        <Authorization />
-      </div>
-    );
+    return <Authorization />;
   } else {
     return (
       <div className='welcome'>

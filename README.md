@@ -204,9 +204,11 @@ The app is deployed on Heroku at: [https://fsnd-projx.herokuapp.com/](https://fs
 {
   "success": true,
   "team": [
-    { "department": "CM", "id": 1, "name": "Sarah" },
-    { "department": "PgM", "id": 3, "name": "Priya" },
-    { "department": "Production", "id": 4, "name": "Kenneth" }
+    { "department": "Engineering", "id": 54, "name": "Sheila Woolley" },
+    { "department": "Marketing", "id": 60, "name": "Denzel Shea" },
+    { "department": "Logistics", "id": 9, "name": "Arthur Glass" },
+    { "department": "Engineering", "id": 7, "name": "Susanna Fields" },
+    { "department": "Tech Support", "id": 74, "name": "Jill Smith-McKendall" }
   ]
 }
 ```
@@ -217,15 +219,15 @@ The app is deployed on Heroku at: [https://fsnd-projx.herokuapp.com/](https://fs
 
 - Returns status code `200`, a description of the selected team member and a `success` value or a status code indication the reason for failure
 
-**Example**: `curl https://fsnd-projx.herokuapp.com/team/1 -H 'Authorization: Bearer {token}'`
+**Example**: `curl https://fsnd-projx.herokuapp.com/team/7 -H 'Authorization: Bearer {token}'`
 
 ```json
 {
   "success": true,
   "team_member": {
-    "department": "CM",
-    "id": 1,
-    "name": "Sarah"
+    "department": "Accounting",
+    "id": 7,
+    "name": "Donald Woodson"
   }
 }
 ```
@@ -242,18 +244,27 @@ The app is deployed on Heroku at: [https://fsnd-projx.herokuapp.com/](https://fs
 {
   "projects": [
     {
-      "client": "Apple",
-      "id": 21,
-      "project_lead": "Priya",
-      "team": ["Sarah", "Kenneth"],
-      "title": "Awesome Project"
-    },
-    {
-      "client": "Amazon",
-      "id": 22,
-      "project_lead": "Sarah",
-      "team": ["Priya"],
-      "title": "Amazing Project"
+      "client": "TransCorp",
+      "formattedTeam": {
+        "lead": {
+          "id": 1,
+          "name": "Sheila Woolley"
+        },
+        "team": [
+          {
+            "id": 5,
+            "name": "Arthur Glass"
+          },
+          {
+            "id": 4,
+            "name": "Denzel Shea"
+          }
+        ]
+      },
+      "id": 1,
+      "project_lead": 1,
+      "team": [4, 5],
+      "title": "Louvre Armadillo"
     }
   ],
   "success": true
@@ -266,16 +277,23 @@ The app is deployed on Heroku at: [https://fsnd-projx.herokuapp.com/](https://fs
 
 - Returns status code `200`, a formatted description of the selected project and a `success` value or a status code indication the reason for failure
 
-**Example**: `curl https://fsnd-projx.herokuapp.com/projects/21 -H 'Authorization: Bearer {token}'`
+**Example**: `curl https://fsnd-projx.herokuapp.com/projects/5 -H 'Authorization: Bearer {token}'`
 
 ```JSON
 {
-    "project" : {
-      "client": "Apple",
-      "id": 21,
-      "project_lead": "Priya",
-      "team": ["Sarah", "Kenneth"],
-      "title": "Awesome Project"
+    "project": {
+        "client": "Ferrus Shipping",
+        "formattedTeam": {
+          "lead": { "id": 1, "name": "Sheila Woolley" },
+          "team": [
+            { "id": 4, "name": "Denzel Shea" },
+            { "id": 5, "name": "Arthur Glass" }
+          ]
+        },
+        "id": 5,
+        "project_lead": 1,
+        "team": [4, 5],
+        "title": "Louvre Armadillo"
     },
     "success": true
 }
@@ -288,17 +306,17 @@ The app is deployed on Heroku at: [https://fsnd-projx.herokuapp.com/](https://fs
 - Creates a new team member using the submitted data: `name` (text string) and `department` (text string).
 - Returns a formatted team member data object( `department`, `id`, `name`) and a `success` value.
 
-**Example**: `curl https://fsnd-projx.herokuapp.com/team -X POST -H "Content-Type: application/json" -d '{"name": "Sarah", "department": "CM"}' -H 'Authorization: Bearer {token}'`
+**Example**: `curl https://fsnd-projx.herokuapp.com/team -X POST -H "Content-Type: application/json" -d '{"name": "Evan Wright", "department": "Legal"}' -H 'Authorization: Bearer {token}'`
 
 ```json
 {
-  "success": true,
-  "team_member": {
-    "department": "CM",
-    "id": 21,
-    "name": "Sarah"
-  }
-}
+    "success": true,
+    "team_member": {
+        "department": "Legal",
+        "id": 8,
+        "name": "Evan Wright"
+    }
+}s
 ```
 
 ### POST /projects
@@ -313,11 +331,18 @@ The app is deployed on Heroku at: [https://fsnd-projx.herokuapp.com/](https://fs
 ```json
 {
   "project": {
-    "client": "Apple",
-    "id": 34,
-    "project_lead": "Kenneth",
-    "team": ["Bob", "Kenneth"],
-    "title": "Awesome Project"
+    "client": "TransCorp",
+    "formattedTeam": {
+      "lead": { "id": 1, "name": "Sheila Woolley" },
+      "team": [
+        { "id": 4, "name": "Denzel Shea" },
+        { "id": 5, "name": "Arthur Glass" }
+      ]
+    },
+    "id": 5,
+    "project_lead": 1,
+    "team": [4, 5],
+    "title": "Louvre Armadillo"
   },
   "success": true
 }
@@ -330,15 +355,15 @@ The app is deployed on Heroku at: [https://fsnd-projx.herokuapp.com/](https://fs
 - Updates a team member using the submitted data: `name` (text string) and `department` (text string).
 - Returns a formatted team member data object( `department`, `id`, `name`) and a `success` value.
 
-**Example**: `curl https://fsnd-projx.herokuapp.com/team/6 -X PATCH -H "Content-Type: application/json" -d '{"name": "Sarah Jane", "department": "Finance"}' -H 'Authorization: Bearer {token}'`
+**Example**: `curl https://fsnd-projx.herokuapp.com/team/9 -X PATCH -H "Content-Type: application/json" -d '{"name": "Arthur Glass", "department": "Finance"}' -H 'Authorization: Bearer {token}'`
 
 ```json
 {
   "success": true,
   "team_member": {
     "department": "Finance",
-    "id": 6,
-    "name": "Sarah Jane"
+    "id": 9,
+    "name": "Arthur Glass"
   }
 }
 ```
@@ -350,16 +375,23 @@ The app is deployed on Heroku at: [https://fsnd-projx.herokuapp.com/](https://fs
 - Updates a project using the submitted data: `title` (text string), `client` (text string), `project_lead` (integer) and `team` (array of integers).
 - Returns a formatted project data object ( `department`, `id`, `project_lead`, `title`, and `team`) and a `success` value.
 
-**Example**: `curl https://fsnd-projx.herokuapp.com/projects/9 -X PATCH -H "Content-Type: application/json" -d '{ "title" : "Super Project", "client" : "Udacity", "project_lead" : 7, "team" : [ 8, 20]}' -H 'Authorization: Bearer {token}'`
+**Example**: `curl https://fsnd-projx.herokuapp.com/projects/4 -X PATCH -H "Content-Type: application/json" -d '{ "title" : "Diamant Boomer", "client" : "Ferrus Shipping", "project_lead" : 5, "team" : [ 7, 9]}' -H 'Authorization: Bearer {token}'`
 
 ```json
 {
   "project": {
-    "client": "Udacity",
-    "id": 9,
-    "project_lead": "Christa",
-    "team": ["Priya", "Kenneth"],
-    "title": "Super Project"
+    "client": "Ferrus Shipping",
+    "formattedTeam": {
+      "lead": { "id": 1, "name": "Sheila Woolley" },
+      "team": [
+        { "id": 4, "name": "Denzel Shea" },
+        { "id": 5, "name": "Arthur Glass" }
+      ]
+    },
+    "id": 5,
+    "project_lead": 1,
+    "team": [4, 5],
+    "title": "Diamant Boomer"
   },
   "success": true
 }
@@ -370,11 +402,11 @@ The app is deployed on Heroku at: [https://fsnd-projx.herokuapp.com/](https://fs
 - Deletes the team member with the specified `id` if it exists.
 - Returns a `success` value and the `id` of the deleted team member.
 
-**Example**: `curl https://fsnd-projx.herokuapp.com/team/4 -X DELETE -H 'Authorization: Bearer {token}'`
+**Example**: `curl https://fsnd-projx.herokuapp.com/team/8 -X DELETE -H 'Authorization: Bearer {token}'`
 
 ```json
 {
-  "deleted": 4,
+  "deleted": 8,
   "success": true
 }
 ```
@@ -384,11 +416,11 @@ The app is deployed on Heroku at: [https://fsnd-projx.herokuapp.com/](https://fs
 - Deletes the project with the specified `id` if it exists.
 - Returns a `success` value and the `id` of the deleted project.
 
-**Example**: `curl https://fsnd-projx.herokuapp.com/projects/4 -X DELETE -H 'Authorization: Bearer {token}'`
+**Example**: `curl https://fsnd-projx.herokuapp.com/projects/5 -X DELETE -H 'Authorization: Bearer {token}'`
 
 ```json
 {
-  "deleted": 4,
+  "deleted": 5,
   "success": true
 }
 ```

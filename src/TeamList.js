@@ -3,19 +3,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 const TeamList = (props) => {
-  const [showModal, setShowModal] = useState(false);
-  const [showWarning, setShowWarning] = useState(false);
-  const [updateTM, setUpdateTM] = useState(false);
-  const [teamMember, setTeamMember] = useState({
+  const emptyTM = {
     name: '',
     department: '',
     id: null,
-  });
+  };
+  const [showModal, setShowModal] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
+  const [updateTM, setUpdateTM] = useState(false);
+  const [teamMember, setTeamMember] = useState(emptyTM);
 
   // passed props
   const teamList = props.teamList.sort((a, b) => (a.name > b.name ? 1 : -1));
   const setTeamList = props.setTeamList;
-  const deleteTMUpdate = props.deleteTMUpdate;
+  const afterDeleteTM = props.afterDeleteTM;
+  const afterTMUpdate = props.afterTMUpdate;
 
   // set permissions
   const canAddTM = props.permissions.includes('post:team');
@@ -45,15 +47,8 @@ const TeamList = (props) => {
 
         // Update teamList and reset teamMember when add succeeds
         if (data.success) {
-          const updatedTeam = teamList.filter(
-            (member) => member.id !== teamMember.id
-          );
-          setTeamList(updatedTeam.concat(teamMember));
-          setTeamMember({
-            name: '',
-            department: '',
-            id: null,
-          });
+          afterTMUpdate(teamMember);
+          setTeamMember(emptyTM);
           setShowModal(false);
           setShowWarning(false);
           setUpdateTM(false);
@@ -80,11 +75,7 @@ const TeamList = (props) => {
         if (data.success) {
           teamMember.id = data.team_member.id;
           setTeamList(teamList.concat(teamMember));
-          setTeamMember({
-            name: '',
-            department: '',
-            id: null,
-          });
+          setTeamMember(emptyTM);
           setShowModal(false);
           setShowWarning(false);
         }
@@ -116,7 +107,7 @@ const TeamList = (props) => {
 
       // Update team and project lists when delete succeeds
       if (data.success) {
-        deleteTMUpdate(id);
+        afterDeleteTM(id);
       }
     } catch (e) {
       console.error('oops!', e);
@@ -125,11 +116,7 @@ const TeamList = (props) => {
 
   const closeModal = () => {
     setShowModal(false);
-    setTeamMember({
-      name: '',
-      department: '',
-      id: null,
-    });
+    setTeamMember(emptyTM);
     setUpdateTM(false);
   };
 

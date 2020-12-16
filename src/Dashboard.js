@@ -42,8 +42,7 @@ const Dashboard = (props) => {
           }
         );
         const project_data = await response.json();
-        console.log(props.token);
-        console.log(project_data.projects);
+        console.log('JWT Token', props.token);
         setProjectList(project_data.projects);
       } catch (e) {
         console.error('oops!', e);
@@ -55,10 +54,13 @@ const Dashboard = (props) => {
     return <Loading />;
   }
 
-  const deleteTMUpdate = (id) => {
+  const afterDeleteTM = (id) => {
+    // Update team list state
     const updatedTeam = teamList.filter((member) => member.id !== id);
     setTeamList(updatedTeam);
-    const updatedProjectList = projectList;
+
+    // Update project list state
+    const updatedProjectList = [...projectList];
     for (let i = 0; i < projectList.length; i++) {
       const project = projectList[i];
       if (project.project_lead === id) {
@@ -75,7 +77,32 @@ const Dashboard = (props) => {
         }
       }
     }
-    setProjectList([...updatedProjectList]);
+    setProjectList(updatedProjectList);
+  };
+
+  const afterTMUpdate = (teamMember) => {
+    // Update team list state
+    const updatedTeam = teamList.filter(
+      (member) => member.id !== teamMember.id
+    );
+    setTeamList(updatedTeam.concat(teamMember));
+
+    // Update project list state
+    const updatedProjectList = [...projectList];
+    for (let i = 0; i < projectList.length; i++) {
+      const project = projectList[i];
+      if (project.project_lead === teamMember.id) {
+        project.project_lead = teamMember.id;
+        project.formattedTeam.lead = teamMember;
+      }
+      const team = project.formattedTeam.team;
+      for (let j = 0; j < team.length; j++) {
+        if (team[j].id === teamMember.id) {
+          team[j] = teamMember;
+        }
+      }
+    }
+    setProjectList(updatedProjectList);
   };
 
   return (
@@ -85,7 +112,8 @@ const Dashboard = (props) => {
         token={props.token}
         teamList={teamList}
         setTeamList={setTeamList}
-        deleteTMUpdate={deleteTMUpdate}
+        afterDeleteTM={afterDeleteTM}
+        afterTMUpdate={afterTMUpdate}
       />
       <ProjectList
         permissions={props.permissions}

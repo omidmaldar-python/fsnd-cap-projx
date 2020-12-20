@@ -24,6 +24,16 @@ const TeamList = (props) => {
   const canEditTM = props.permissions.includes('patch:team');
   const canDeleteTM = props.permissions.includes('delete:team');
 
+  // Update team member
+  const updateName = (e) =>
+    setTeamMember((state) => ({ ...state, name: e.target.value }));
+
+  const updateDepartment = (e) =>
+    setTeamMember((state) => ({
+      ...state,
+      department: e.target.value,
+    }));
+
   const addUpdateTeamMember = async (e) => {
     e.preventDefault();
     if (!teamMember.name || !teamMember.department) {
@@ -170,9 +180,7 @@ const TeamList = (props) => {
               className='teamInput'
               type='text'
               name='memberName'
-              onChange={(e) =>
-                setTeamMember((state) => ({ ...state, name: e.target.value }))
-              }
+              onChange={updateName}
               value={teamMember.name}
             />
 
@@ -182,12 +190,7 @@ const TeamList = (props) => {
               className='teamInput'
               type='text'
               name='memberDepartment'
-              onChange={(e) =>
-                setTeamMember((state) => ({
-                  ...state,
-                  department: e.target.value,
-                }))
-              }
+              onChange={updateDepartment}
               value={teamMember.department}
             />
             <p className={showWarning ? 'warning' : 'closed'}>

@@ -55,9 +55,8 @@ const Dashboard = (props) => {
   }
 
   const afterDeleteTM = (id) => {
-    // Update team list state
-    const updatedTeam = teamList.filter((member) => member.id !== id);
-    setTeamList(updatedTeam);
+    // Update team list
+    setTeamList((teamList) => teamList.filter((member) => member.id !== id));
 
     // Update project list state
     const updatedProjectList = [...projectList];

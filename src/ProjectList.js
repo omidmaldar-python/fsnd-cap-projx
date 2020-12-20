@@ -38,6 +38,33 @@ const ProjectList = (props) => {
   const canEditProject = props.permissions.includes('patch:projects');
   const canDeleteProject = props.permissions.includes('delete:projects');
 
+  // update project
+  const updateTitle = (e) =>
+    setProject((state) => ({ ...state, title: e.target.value }));
+
+  const updateClient = (e) =>
+    setProject((state) => ({
+      ...state,
+      client: e.target.value,
+    }));
+
+  const updateLead = (e) => {
+    setProject((state) => ({
+      ...state,
+      project_lead: parseInt(e.target.value),
+    }));
+  };
+
+  const updateTeam = (e) => {
+    const team = Array.from(e.target.selectedOptions, (option) =>
+      parseInt(option.value)
+    );
+    setProject((state) => ({
+      ...state,
+      team: team,
+    }));
+  };
+
   const addUpdateProject = async (e) => {
     e.preventDefault();
     if (!project.client || !project.title) {
@@ -235,9 +262,7 @@ const ProjectList = (props) => {
               className='projectInput'
               type='text'
               name='projectTitle'
-              onChange={(e) =>
-                setProject((state) => ({ ...state, title: e.target.value }))
-              }
+              onChange={updateTitle}
               value={project.title}
             />
 
@@ -247,12 +272,7 @@ const ProjectList = (props) => {
               className='projectInput'
               type='text'
               name='projectClient'
-              onChange={(e) =>
-                setProject((state) => ({
-                  ...state,
-                  client: e.target.value,
-                }))
-              }
+              onChange={updateClient}
               value={project.client}
             />
             <label htmlFor='leadInput'>Project Lead</label>
@@ -260,12 +280,7 @@ const ProjectList = (props) => {
               id='leadInput'
               className='projectInput'
               type='select'
-              onChange={(e) => {
-                setProject((state) => ({
-                  ...state,
-                  project_lead: parseInt(e.target.value),
-                }));
-              }}
+              onChange={updateLead}
               value={project.project_lead ? project.project_lead : 0}
               name='selectLead'
             >
@@ -284,15 +299,7 @@ const ProjectList = (props) => {
               className='projectInput'
               type='select-multiple'
               multiple={true}
-              onChange={(e) => {
-                const team = Array.from(e.target.selectedOptions, (option) =>
-                  parseInt(option.value)
-                );
-                setProject((state) => ({
-                  ...state,
-                  team: team,
-                }));
-              }}
+              onChange={updateTeam}
               value={project.team}
               name='selectTeam'
             >

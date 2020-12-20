@@ -1,4 +1,4 @@
-# Full Stack Capstone Project
+# Full Stack Capstone Project - ProjX
 
 ## Table of Contents
 
@@ -8,14 +8,15 @@
 4. [Tech Stack](#tech-stack)
 5. [Endpoint Library](#endpoint-library)
 6. [Testing](#testing)
+7. [Future Features](#future-features)
 
 ## Project Description
 
-This is the final project in the Udacity Full Stack Nanodegree program.
+ProjX is designed as a proof-of-concept of a project assignment app. Depending on their privileges, a user can credit, edit, view, and delete projects and team members.
 
 ## Purpose
 
-The purpose of this project is to demonstrate mastery of the concepts and the skills taught in the program:
+This is the final project in the Udacity Full Stack Nanodegree program. The purpose of this project is to demonstrate mastery of the concepts and the skills taught in the program:
 
 - Coding in Python 3
 - Relational Database Architecture
@@ -128,6 +129,13 @@ The frontend is built using [React](https://reactjs.org/). Specific packages inc
 - [dotenv](https://github.com/motdotla/dotenv) to load environment variables
 - [FontAwesome](https://fontawesome.com/) for UI icons
 - [jwt-decode](https://github.com/auth0/jwt-decode) to unpack user permissions from the Auth0 tokens
+
+The is fully responsive, rendering nicely in desktops
+
+![Projx Desktop](src/images/projx-desktop.png)
+
+and mobile devices:
+![Projx Mobile](src/images/projx-mobile.png)
 
 ### Backend
 
@@ -465,3 +473,23 @@ The app was developed locally using TDD practices. See test details in [test_app
    ```bash
    python3 test_app.py
    ```
+
+## Future Features
+
+The current app has basic functionality. This following features could expand the usefullness of the app:
+
+### Team Members
+
+- Move `department` field to a separate table
+
+- Add new fields to include:
+
+  - Skills
+  - Contact information
+
+### Projects
+
+- Add new fields to include:
+
+  - Timeline and due dates
+  - Resource needs
